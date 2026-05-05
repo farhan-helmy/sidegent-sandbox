@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    matplotlib \
+    scipy \
+    sympy
+
+# No CMD — entrypoint is provided at container creation time
