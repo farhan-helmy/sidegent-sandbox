@@ -22,9 +22,12 @@ case "$ARCH" in
     *)       echo "Error: Unsupported architecture: $ARCH"; exit 1 ;;
 esac
 
-# Get latest version
+# Get latest version (falls back to newest pre-release if no stable release exists)
 echo "Fetching latest version..."
-VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | cut -d'"' -f4)"
+VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" 2>/dev/null | grep '"tag_name"' | cut -d'"' -f4)"
+if [ -z "$VERSION" ]; then
+    VERSION="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases" | grep '"tag_name"' | head -1 | cut -d'"' -f4)"
+fi
 if [ -z "$VERSION" ]; then
     echo "Error: Could not determine latest version"
     exit 1
