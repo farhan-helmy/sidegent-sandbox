@@ -15,16 +15,6 @@ import (
 
 const defaultImage = "sidegent-python"
 
-type Config struct {
-	Port           int
-	MaxConcurrent  int
-	DefaultTimeout int
-	MaxTimeout     int
-	SandboxImage   string
-	SandboxMemory  string
-	SandboxCPUs    int
-}
-
 func envOrDefault(key, fallback string) string {
 	if v := os.Getenv(key); v != "" {
 		return v
