@@ -1,4 +1,4 @@
-module github.com/farhan/simple-sandbox
+module github.com/farhan-helmy/sidegent-sandbox
 
 go 1.25.9
 
