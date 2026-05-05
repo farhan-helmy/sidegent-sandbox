@@ -11,7 +11,7 @@ import (
 )
 
 func TestHealthEndpoint(t *testing.T) {
-	handler := newRouter(nil)
+	handler := newRouter(nil, 30, 120)
 	req := httptest.NewRequest(http.MethodGet, "/health", nil)
 	w := httptest.NewRecorder()
 
@@ -26,7 +26,7 @@ func TestHealthEndpoint(t *testing.T) {
 }
 
 func TestExecuteMissingCode(t *testing.T) {
-	handler := newRouter(nil)
+	handler := newRouter(nil, 30, 120)
 	body := strings.NewReader(`{}`)
 	req := httptest.NewRequest(http.MethodPost, "/execute", body)
 	req.Header.Set("Content-Type", "application/json")
@@ -46,7 +46,7 @@ func TestExecuteMissingCode(t *testing.T) {
 }
 
 func TestExecuteInvalidJSON(t *testing.T) {
-	handler := newRouter(nil)
+	handler := newRouter(nil, 30, 120)
 	body := strings.NewReader(`not json`)
 	req := httptest.NewRequest(http.MethodPost, "/execute", body)
 	req.Header.Set("Content-Type", "application/json")
@@ -65,7 +65,7 @@ func TestExecuteIntegration(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024,
 		CPUs:          1,
 		PidsLimit:     64,
@@ -77,7 +77,7 @@ func TestExecuteIntegration(t *testing.T) {
 	}
 	defer exec.Close()
 
-	handler := newRouter(exec)
+	handler := newRouter(exec, 30, 120)
 	body := strings.NewReader(`{"code": "print(2 + 2)", "timeout": 30}`)
 	req := httptest.NewRequest(http.MethodPost, "/execute", body)
 	req.Header.Set("Content-Type", "application/json")
@@ -111,7 +111,7 @@ func TestExecuteConcurrencyLimit(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024,
 		CPUs:          1,
 		PidsLimit:     64,
@@ -123,7 +123,7 @@ func TestExecuteConcurrencyLimit(t *testing.T) {
 	}
 	defer exec.Close()
 
-	handler := newRouter(exec)
+	handler := newRouter(exec, 30, 120)
 
 	// Fill the semaphore with a long-running request
 	var wg sync.WaitGroup

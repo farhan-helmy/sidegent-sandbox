@@ -12,7 +12,7 @@ func TestExecuteSimplePrint(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024, // 512MB
 		CPUs:          1,
 		PidsLimit:     64,
@@ -46,7 +46,7 @@ func TestExecuteStderr(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024,
 		CPUs:          1,
 		PidsLimit:     64,
@@ -77,7 +77,7 @@ func TestExecuteExitCode(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024,
 		CPUs:          1,
 		PidsLimit:     64,
@@ -111,7 +111,7 @@ func TestExecuteTimeout(t *testing.T) {
 	}
 
 	exec, err := NewExecutor(ExecutorConfig{
-		Image:         "simple-sandbox-python",
+		Image:         "sidegent-python",
 		Memory:        512 * 1024 * 1024,
 		CPUs:          1,
 		PidsLimit:     64,
